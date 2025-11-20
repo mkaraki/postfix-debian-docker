@@ -1,0 +1,16 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "packageRules": [
+        {
+            "matchDatasources": ["docker"],
+            "matchPackageNames": ["debian", "ubuntu"],
+            "matchUpdateTypes": ["digest"],
+            "automerge": true,
+            "automergeType": "branch" 
+        }
+    ],
+    "assignees": [
+        "mkaraki"
+    ],
+    "pinDigests": true
+}

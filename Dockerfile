@@ -1,7 +1,14 @@
-FROM ubuntu:noble@sha256:c35e29c9450151419d9448b0fd75374fec4fff364a27f176fb458d472dfc9e54
+FROM debian:trixie-slim
+
+# renovate-debian: suite=trixie depName=postfix
+ARG POSTFIX_VERSION="3.10.5-1~deb13u1"
+
+# renovate-debian: suite=trixie depName=sasl2-bin
+ARG SASL2BIN_VERSION="2.1.28+dfsg1-9"
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
-    postfix sasl2-bin \
+    postfix="${POSTFIX_VERSION}" \
+    sasl2-bin="${SASL2BIN_VERSION}" \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY init.sh /

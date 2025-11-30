@@ -1,4 +1,4 @@
-FROM debian:trixie-slim
+FROM debian:trixie-slim@sha256:18764e98673c3baf1a6f8d960b5b5a1ec69092049522abac4e24a7726425b016
 
 # renovate-debian: suite=trixie depName=postfix
 ARG POSTFIX_VERSION="3.10.5-1~deb13u1"

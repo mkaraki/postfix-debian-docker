@@ -1,7 +1,7 @@
 FROM debian:trixie-slim@sha256:d7e12182ce18b85b93007c1dedf31f2d29e01ccf3182cc4017c709b6259bc132
 
 # renovate-debian: suite=trixie depName=postfix
-ARG POSTFIX_VERSION="3.10.11-0+deb13u1"
+ARG POSTFIX_VERSION="3.10.13-0+deb13u1"
 
 # renovate-debian: suite=trixie depName=sasl2-bin
 ARG SASL2BIN_VERSION="2.1.28+dfsg1-9"

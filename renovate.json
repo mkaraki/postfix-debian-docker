@@ -1,35 +1,65 @@
 {
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "customManagers": [
-            {
-                "customType": "regex",
-                "managerFilePatterns": [
-                    "/^Dockerfile/"
-                ],
-                "matchStrings": [
-                    "#\\s*renovate-debian:\\s*?(suite=(?<suite>.*?))?\\s*depName=(?<depName>.*?)?\\sARG .*_VERSION=\"(?<currentValue>.*)\""
-                ],
-                "registryUrlTemplate": "https://deb.debian.org/debian?suite={{#if suite }}{{suite}}{{else}}stable{{/if}}&components=main,contrib,non-free&binaryArch=amd64",
-                "datasourceTemplate": "deb"
-            }
-        ],
-    "packageRules": [
-        {
-            "matchDatasources": ["docker"],
-            "matchPackageNames": ["debian", "ubuntu"],
-            "matchUpdateTypes": ["digest"],
-            "automerge": true,
-            "automergeType": "branch"
-        },
-        {
-            "groupName": "GitHub Artifact Actions",
-            "matchManagers": [
-              "github-actions"
-            ]
-        }
-    ],
-    "assignees": [
-        "mkaraki"
-    ],
-    "pinDigests": true
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^Dockerfile/"
+      ],
+      "matchStrings": [
+        "#\\s*renovate-debian:\\s*?(suite=(?<suite>.*?))?\\s*depName=(?<depName>.*?)?\\sARG .*_VERSION=\"(?<currentValue>.*)\""
+      ],
+      "registryUrlTemplate": "https://deb.debian.org/debian?suite={{#if suite}}{{suite}}{{else}}stable{{/if}}&components=main,contrib,non-free&binaryArch=amd64",
+      "datasourceTemplate": "deb"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Debian base image digest updates: merge directly to the branch without a PR (unchanged from the previous config).",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "debian",
+        "ubuntu"
+      ],
+      "matchUpdateTypes": [
+        "digest"
+      ],
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
+      "description": "Debian package version bumps in the Dockerfile (deb datasource via customManagers): automerge once CI (Docker build) passes. Includes major updates because the pins track the Debian suite in use (e.g. trixie).",
+      "matchDatasources": [
+        "deb"
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true,
+      "ignoreTests": false
+    },
+    {
+      "description": "GitHub Actions updates: automerge patch/minor once CI passes. Major updates stay manual.",
+      "groupName": "GitHub Artifact Actions",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true,
+      "ignoreTests": false
+    }
+  ],
+  "assignees": [
+    "mkaraki"
+  ],
+  "pinDigests": true
 }
